@@ -9,7 +9,6 @@
 pthread_mutex_t r_mutex;
 pthread_mutex_t rw_mutex;
 int readcount=0;
-int readerId = 1;
 int writerId = 1;
 
 void *readers(void *param){
@@ -20,7 +19,7 @@ void *readers(void *param){
 		pthread_mutex_lock(&rw_mutex);	
 	pthread_mutex_unlock(&r_mutex);
 	
-	printf("Reader-%d is reading\n",readerId++);
+	printf("%d Reader is reading\n",readcount);
 	pthread_mutex_lock(&r_mutex);
 	readcount --;
 	if(readcount==0){

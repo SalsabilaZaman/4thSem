@@ -9,7 +9,7 @@ double timetable[MAX][5];
 
 
 void input(){
-	freopen("data.txt","r",stdin);
+	freopen("newdata.txt","r",stdin);
 	cin >> n;
 	for(int i=0;i<n;i++)
 		cin >> name[i]>> timetable[i][0]>> timetable[i][1]>> timetable[i][2];
@@ -60,20 +60,7 @@ void sort(string condition){
 	}
 	
 } 
-void fcfs(){
-		int time=0;
-		sort("ArrivalTime");
-		cout <<"Gantt Chart for FCFS Algorithm="<<endl;
-		
-		for(int i=0;i<n;i++){
-			cout << name[i] <<"	";
-			cout << time <<"-";
-			time+=timetable[i][0];
-			timetable[i][3]=time-timetable[i][2];
-			cout <<time <<endl;	
-		}
-		
-		cout <<endl;	
+void calculate(string str){
 		cout <<"Turnaround Time-"<<endl;
 		for(int i=0;i<n;i++)
 			cout << name[i]<<"     "<<timetable[i][3]<<endl;
@@ -89,8 +76,25 @@ void fcfs(){
 		}
 		
 		
-		cout <<"Average Turnaround Time-"<<(double)avgT/n<<endl;
-		cout <<"Average Waiting Time-"<<(double)avgW/n<<endl;	
+		cout <<"Average Turnaround Time for "<<str<<"-"<<(double)avgT/n<<endl;
+		cout <<"Average Waiting Time for "<<str<<"-"<<(double)avgW/n<<endl;	
+		cout <<endl<<endl;
+}
+void fcfs(){
+		int time=0;
+		sort("ArrivalTime");
+		cout <<"Gantt Chart for FCFS Algorithm="<<endl;
+		
+		for(int i=0;i<n;i++){
+			cout << name[i] <<"	";
+			cout << time <<"-";
+			time+=timetable[i][0];
+			timetable[i][3]=time-timetable[i][2];
+			cout <<time <<endl;	
+		}
+		
+		cout <<endl;	
+		calculate("FCFS");
 
 }
 
@@ -108,24 +112,7 @@ void sjf(){
 		}
 		
 		cout <<endl;	
-		cout <<"Turnaround Time-"<<endl;
-		for(int i=0;i<n;i++)
-			cout << name[i]<<"     "<<timetable[i][3]<<endl;
-		cout <<"Waiting Time-"<<endl;
-		for(int i=0;i<n;i++){
-			timetable[i][4]=timetable[i][3]-timetable[i][0];
-			cout << name[i]<<"     "<<timetable[i][4]<<endl;	
-		}
-		int avgT=0,avgW=0;
-		for(int i=0;i<n;i++){
-			avgT+=timetable[i][3];
-			avgW+=timetable[i][4];
-		}
-		
-		
-		cout <<"Average Turnaround Time-"<<(double)avgT/n<<endl;
-		cout <<"Average Waiting Time-"<<(double)avgW/n<<endl;	
-
+		calculate("SJF");
 }
 void priority(){
 		int time=0;
@@ -141,23 +128,7 @@ void priority(){
 		}
 		
 		cout <<endl;	
-		cout <<"Turnaround Time-"<<endl;
-		for(int i=0;i<n;i++)
-			cout << name[i]<<"     "<<timetable[i][3]<<endl;
-		cout <<"Waiting Time-"<<endl;
-		for(int i=0;i<n;i++){
-			timetable[i][4]=timetable[i][3]-timetable[i][0];
-			cout << name[i]<<"     "<<timetable[i][4]<<endl;	
-		}
-		int avgT=0,avgW=0;
-		for(int i=0;i<n;i++){
-			avgT+=timetable[i][3];
-			avgW+=timetable[i][4];
-		}
-		
-		
-		cout <<"Average Turnaround Time-"<<(double)avgT/n<<endl;
-		cout <<"Average Waiting Time-"<<(double)avgW/n<<endl;	
+		calculate("Priority Scheduling");
 
 }
 void roundRobin(){
@@ -190,31 +161,16 @@ void roundRobin(){
 	    	timetable[i][0]-=quantum;
 	    }	           
            } 
-      }     
-		cout <<"Turnaround Time-"<<endl;
-		for(int i=0;i<n;i++)
-			cout << name[i]<<"     "<<timetable[i][3]<<endl;
-		cout <<"Waiting Time-"<<endl;
-		for(int i=0;i<n;i++){
-			timetable[i][4]=timetable[i][3]-timetable[i][0];
-			cout << name[i]<<"     "<<timetable[i][4]<<endl;	
-		}
-		int avgT=0,avgW=0;
-		for(int i=0;i<n;i++){
-			avgT+=timetable[i][3];
-			avgW+=timetable[i][4];
-		}
-		
-		
-		cout <<"Average Turnaround Time-"<<(double)avgT/n<<endl;
-		cout <<"Average Waiting Time-"<<(double)avgW/n<<endl;	
+       }     
+		cout<<endl;
+		calculate("Round-Robin"); 
 
 }
 int main(){
 	input();
-	fcfs();
-	sjf();
-	priority();
+	//fcfs();
+	//sjf();
+	//priority();
 	roundRobin();
 	//show();
 	return 0;

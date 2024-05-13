@@ -89,9 +89,9 @@ int main(){
 	pthread_attr_init(&attr);
 	
 	for(int i=0;i<num;i+=2)
-		pthread_create(&tid[i],&attr,producer,"hello");
+		pthread_create(&tid[i],&attr,producer,NULL);
 	for(int i=1;i<num;i+=2)	
-		pthread_create(&tid[i+1],&attr,consumer,"hello");
+		pthread_create(&tid[i+1],&attr,consumer,NULL);
 	
 	for(int i=0;i<num;i+=2){
 		pthread_join(tid[i], NULL);

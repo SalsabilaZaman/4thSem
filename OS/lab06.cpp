@@ -34,11 +34,13 @@ int main(){
 	int complete=0,min=INT_MAX;
 	int time=0,running=0,prev=-1;
 	bool flag=false;
+	
 	cout << "Gantt Chart for Preemptive SJF:"<<endl;
+	
 	while(complete!=num){
 		for(int i=0;i<num;i++)
 		   if(!P[i].isCompleted)
-		      if(P[i].arrival_time <= time && P[i].remaining_time < min){
+		      if(P[i].arrival_time <= time && P[i].remaining_time < min){			//check for process with shortest remaining time
 		    	min=P[i].remaining_time;
 		    	running=i;
 		    	flag=true;  

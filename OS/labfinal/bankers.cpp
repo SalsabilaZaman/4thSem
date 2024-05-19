@@ -7,8 +7,20 @@ bool allFinished(bool finished[],int p){
 			return false;
 	return true;
 }
+/*5 3
+0 1 0
+2 0 0
+3 0 2
+2 1 1
+0 0 2
+7 5 3
+3 2 2
+9 0 2
+2 2 2
+4 3 3
+3 3 2*/
 int main(){
-	int p,r,idx=0,first;
+	int p,r,idx=0;
 	cout <<"How many process:";
 	cin  >> p;
 	cout <<"How many resource:";
@@ -19,37 +31,21 @@ int main(){
 	
 	for(int i=0;i<p;i++)
 		finished[i]=false;
-	cout <<"Allocation Matrix="<<endl;	
+		
 	for(int i=0;i<p;i++)
 	    for(int j=0;j<r;j++)
 	    	cin >> allocation[i][j];
-	cout <<"Max Matrix="<<endl;    	
+	    	
 	for(int i=0;i<p;i++)
 	    for(int j=0;j<r;j++)
 	    	cin >> max[i][j];
-	cout <<"Available Resouces="<<endl;    	
+	    	
 	for(int i=0;i<r;i++)
 		cin >> work[i];   	
 	
-	cout << "Which process first-";
-	cin >> first;
-	
 	for(int i=0;i<p;i++)
 	    for(int j=0;j<r;j++)
-	    	need[i][j]=max[i][j]-allocation[i][j];    
-	bool flag=true;
-	for(int j=0;j<r;j++)
-	   if(need[first][j]>work[j]){
-		  flag=false;
-		  Safe=false;
-		  break;
- 	   }
-	if(flag){
-		safeSequence[idx++]=first;
-		finished[first]=true;
-		for(int j=0;j<r;j++)
-		    work[j]+=allocation[first][j];    		    	
-	}
+	    	need[i][j]=max[i][j]-allocation[i][j];    	    	
 	int loop=0;
 	while(!allFinished(finished,p)){
 		if(loop>p){
@@ -58,7 +54,7 @@ int main(){
 		}   
 		for(int i=0;i<p;i++)
 		   if(finished[i]==false){
-		   	flag=true;
+		   	bool flag=true;
 		   	for(int j=0;j<r;j++)
 		   	   if(need[i][j]>work[j]){
 		   		flag=false;
@@ -82,7 +78,5 @@ int main(){
 				cout <<"-->";
 		}
 	}
-	else
-		cout <<"No safe sequence is found!"<<endl;
 	return 0;
 }

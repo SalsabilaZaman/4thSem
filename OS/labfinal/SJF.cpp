@@ -31,15 +31,17 @@ int main(){
 			P[j+1]=temp;
 		}
 	
-	int complete=0,max=INT_MIN;
+	int complete=0,min=INT_MAX;
 	int time=0,running=0,prev=-1;
 	bool flag=false;
-	cout << "Gantt Chart for Preemptive Priority:"<<endl;
+	
+	cout << "Gantt Chart for Preemptive SJF:"<<endl;
+	
 	while(complete!=num){
 		for(int i=0;i<num;i++)
 		   if(!P[i].isCompleted)
-		      if(P[i].arrival_time <= time && P[i].priority >max){
-		    	max=P[i].priority;
+		      if(P[i].arrival_time <= time && P[i].remaining_time < min){			//check for process with shortest remaining time
+		    	min=P[i].remaining_time;
 		    	running=i;
 		    	flag=true;  
 		      }
@@ -58,9 +60,10 @@ int main(){
 		
 		time++;
 		P[running].remaining_time--;
-	
+		min=P[running].remaining_time;
+		if(min==0)
+		   min=INT_MAX;
 		
-		   
 		if(P[running].remaining_time==0){
 			complete++;
 			P[running].isCompleted=true;
@@ -68,11 +71,9 @@ int main(){
 			P[running].turnaround_time=time-P[running].arrival_time;
 			P[running].waiting_time=P[running].turnaround_time-P[running].burst_time;
 			cout << time << " | ";
-			max=INT_MIN;
 		}   	  	
 	}
 	double totalWaiting=0,totalTurnAround=0;
-	cout <<endl;
 	for(int i=0;i<num;i++){
 		cout << P[i].name << " "<< P[i].turnaround_time <<" "<<P[i].waiting_time <<endl;
 		totalWaiting+=P[i].waiting_time;

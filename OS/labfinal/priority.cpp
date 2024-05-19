@@ -19,7 +19,7 @@ int main(){
 	cin >> num;
 	struct process P[num],temp;	
 	for(int i=0;i<num;i++){
-		cin >>P[i].name>> P[i].burst_time >>P[i].priority >>P[i].arrival_time;
+		cin >>P[i].name>>P[i].arrival_time>>P[i].priority>>P[i].burst_time ;
 		P[i].remaining_time=P[i].burst_time;
 		P[i].isCompleted=false;
 	}
@@ -31,14 +31,16 @@ int main(){
 			P[j+1]=temp;
 		}
 	
-	int complete=0,max=INT_MIN;
+	int complete=0;
+	//int max=INT_MIN;
+	int max=INT_MAX;
 	int time=0,running=0,prev=-1;
 	bool flag=false;
 	cout << "Gantt Chart for Preemptive Priority:"<<endl;
 	while(complete!=num){
 		for(int i=0;i<num;i++)
 		   if(!P[i].isCompleted)
-		      if(P[i].arrival_time <= time && P[i].priority >max){
+		      if(P[i].arrival_time <= time && P[i].priority <max){
 		    	max=P[i].priority;
 		    	running=i;
 		    	flag=true;  
@@ -68,7 +70,8 @@ int main(){
 			P[running].turnaround_time=time-P[running].arrival_time;
 			P[running].waiting_time=P[running].turnaround_time-P[running].burst_time;
 			cout << time << " | ";
-			max=INT_MIN;
+			//max=INT_MIN;
+			max=INT_MAX;
 		}   	  	
 	}
 	double totalWaiting=0,totalTurnAround=0;

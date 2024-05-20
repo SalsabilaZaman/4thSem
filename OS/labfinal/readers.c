@@ -11,7 +11,7 @@ pthread_mutex_t rw_mutex;
 int readcount=0;
 int writerId = 1;
 
-void *readers(void *param){
+void *readers(void* param){
 	pthread_mutex_lock(&r_mutex);
 	
 	readcount ++;
@@ -19,9 +19,11 @@ void *readers(void *param){
 		pthread_mutex_lock(&rw_mutex);	
 	pthread_mutex_unlock(&r_mutex);
 	
-	printf("%d Reader is reading\n",readcount);
+	printf("Reader-%ld is reading\n",(long)param);
+	
 	pthread_mutex_lock(&r_mutex);
 	readcount --;
+	printf("Reader-%ld is leaving\n",(long)param);
 	if(readcount==0){
 		//printf("No reader is reading now\n");	
 		pthread_mutex_unlock(&rw_mutex);
@@ -30,10 +32,10 @@ void *readers(void *param){
 			
 	pthread_exit(0);
 }
-void *writers(void *param){
+void *writers(void* param){
 	pthread_mutex_lock(&rw_mutex);
 	
-	printf("Writer-%d is writing\n",writerId++);
+	printf("Writer-%ld is writing\n",(long)param);
 	
 	pthread_mutex_unlock(&rw_mutex);
 	pthread_exit(0);
@@ -50,11 +52,11 @@ int main(){
 	
 	pthread_attr_init(&attr);
 	
-	for(int i=0;i<num;i+=2){
-		pthread_create(&tid[i],&attr,writers,NULL);
-		pthread_create(&tid[i+1],&attr,readers,NULL);
+	for(long i=0;i<num;i+=2){
+		pthread_create(&tid[i],&attr,readers,(void*)i);	
+		pthread_create(&tid[i+1],&attr,writers,(void*)i);
 	}
-	for(int i=0;i<num;i+=2){
+	for(long i=0;i<num;i+=2){
 		pthread_join(tid[i], NULL);
    		pthread_join(tid[i+1], NULL);
    	}
